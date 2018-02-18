@@ -1,9 +1,9 @@
 package ru.kpfu.models;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -11,11 +11,14 @@ import java.util.List;
  *
  * @author Robert Bagramov.
  */
-@Entity
-@Table(name = "`user`")
-@Data
+@Entity(name = "checkin_user")
+@Table(name = "checkin_user")
 @Builder
-public class User {
+@Setter
+@Getter
+@AllArgsConstructor
+@RequiredArgsConstructor
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")

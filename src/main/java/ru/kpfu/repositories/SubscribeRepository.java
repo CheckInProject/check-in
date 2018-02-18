@@ -8,5 +8,5 @@ import ru.kpfu.models.Subscribe;
  *
  * @author Robert Bagramov.
  */
-public interface SubscribeRepository extends CrudRepository<Subscribe, Integer>{
+public interface SubscribeRepository extends CrudRepository<Subscribe, Integer> {
 }

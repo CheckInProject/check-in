@@ -1,9 +1,12 @@
 package ru.kpfu.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.kpfu.models.Post;
 import ru.kpfu.models.User;
 import ru.kpfu.services.RegistrationService;
+import ru.kpfu.services.RoleService;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
@@ -17,6 +20,9 @@ import static org.springframework.http.HttpStatus.CREATED;
 public class RegistrationController {
     @Autowired
     RegistrationService registrationService;
+
+    @Autowired
+    RoleService roleService;
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     @ResponseStatus(CREATED)
@@ -34,4 +40,5 @@ public class RegistrationController {
                 password
         );
     }
+
 }

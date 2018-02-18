@@ -1,7 +1,6 @@
 package ru.kpfu.models;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -12,7 +11,10 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "post")
-@Data
+@Setter
+@Getter
+@AllArgsConstructor
+@RequiredArgsConstructor
 @Builder
 public class Post {
     @Id

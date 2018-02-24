@@ -36,7 +36,7 @@ public class PostController {
     @RequestMapping(value = "/post/delete")
     @PreAuthorize("hasAuthority('REGISTERED_USER')")
     @ResponseStatus(OK)
-    public void deleteUserPostByPostId(@RequestParam("postId") int postId) {
+    public void deleteUserPost(@RequestParam("postId") int postId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         postService.deletePostByIdAndUserId(postId, authentication);
     }
@@ -44,7 +44,7 @@ public class PostController {
     @RequestMapping(value = "/post/create", method = RequestMethod.POST)
     @PreAuthorize("hasAuthority('REGISTERED_USER')")
     @ResponseStatus(CREATED)
-    public void deleteUserPostByPostId(@RequestBody Post post) {
+    public void createUserPost(@RequestBody Post post) {
         postService.createPostByUserId(post);
     }
 }

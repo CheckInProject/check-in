@@ -16,12 +16,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import ru.kpfu.models.User;
 import ru.kpfu.models.request.AuthenticationRequest;
 import ru.kpfu.models.response.UserTransfer;
+import ru.kpfu.services.UserService;
 import ru.kpfu.util.TokenUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static ru.kpfu.models.Role.REGISTERED_USER;
 
 /**
  * 18.02.2018
@@ -38,13 +42,20 @@ public class LoginController {
     @Qualifier("customUserDetailsService")
     private UserDetailsService customUserDetailsService;
 
+    @Autowired
+    private UserService userService;
+
     @RequestMapping(value = "/authenticate", method = {RequestMethod.POST})
     public ResponseEntity<UserTransfer> authenticate(@RequestBody AuthenticationRequest authenticationRequest) {
         try {
             String username = authenticationRequest.getUsername();
             String password = authenticationRequest.getPassword();
 
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
+            List<GrantedAuthority> authorities = new ArrayList<>();
+            authorities.add(REGISTERED_USER);
+
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username,
+                    password, authorities);
             Authentication authentication = this.authenticationManager.authenticate(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
             UserDetails userDetails = this.customUserDetailsService.loadUserByUsername(username);
@@ -55,8 +66,16 @@ public class LoginController {
                 roles.add(authority.toString());
             }
 
-            return new ResponseEntity<UserTransfer>(new UserTransfer(userDetails.getUsername(), roles,
-                    TokenUtil.createToken(userDetails), HttpStatus.OK), HttpStatus.OK);
+            User user = userService.findByUsernameOrEmail(userDetails.getUsername());
+
+            return new ResponseEntity<UserTransfer>(UserTransfer
+                    .builder()
+                    .id(user.getId())
+                    .roles(roles)
+                    .username(user.getLogin())
+                    .token(TokenUtil.createToken(userDetails))
+                    .status(HttpStatus.OK)
+                    .build(), HttpStatus.OK);
 
         } catch (BadCredentialsException bce) {
             return new ResponseEntity<UserTransfer>(new UserTransfer(), HttpStatus.NO_CONTENT);

@@ -1,4 +1,4 @@
-package ru.kpfu.security.details;
+package ru.kpfu.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service("customUserDetailsService")
-public class CustomUserDetailsService implements UserDetailsService {
+public class CustomUserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private UserService userService;
 
@@ -44,8 +44,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private List<GrantedAuthority> getGrantedAuthorities(User user) {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        Role role = roleService.getRolesByUserId(user.getId()).get(0);
-        authorities.add(new SimpleGrantedAuthority(role.getAuthority()));
+        List<Role> roles = roleService.findRolesByUserId(user.getId());
+        for (Role role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role.getAuthority()));
+        }
         return authorities;
     }
 

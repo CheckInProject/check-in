@@ -19,7 +19,7 @@ public class RoleServiceImpl implements RoleService {
     RoleRepository roleRepository;
 
     @Override
-    public List<Role> getRolesByUserId(int id) {
+    public List<Role> findRolesByUserId(int id) {
         return roleRepository.findRoleByUserId(id);
     }
 }

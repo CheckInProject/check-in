@@ -3,6 +3,7 @@ package ru.kpfu.models;
 import lombok.*;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 /**
  * 16.02.2018
@@ -31,7 +32,10 @@ public class Post {
     @Column
     private String description;
 
-    @ManyToOne()
+    @Column
+    private Timestamp date;
+
+    @ManyToOne
     @JoinColumn(name = "creator_id")
     private User user;
 

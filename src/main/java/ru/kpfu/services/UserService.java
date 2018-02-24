@@ -1,7 +1,6 @@
 package ru.kpfu.services;
 
 import javassist.tools.rmi.ObjectNotFoundException;
-import org.springframework.data.repository.CrudRepository;
 import ru.kpfu.models.User;
 
 /**
@@ -11,5 +10,6 @@ import ru.kpfu.models.User;
  */
 public interface UserService {
     User findByUsernameOrEmail(String loginOrEmail);
+
     User findById(int id) throws ObjectNotFoundException;
 }

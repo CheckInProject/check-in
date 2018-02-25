@@ -1,5 +1,6 @@
 package ru.kpfu.services.impl;
 
+import javassist.tools.rmi.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
@@ -50,18 +51,21 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void deletePostByIdAndUserId(int postId, Authentication authentication) {
+    public void removePost(Authentication authentication, int postId) throws ObjectNotFoundException {
         User userDetails = (User) authentication.getPrincipal();
         String username = userDetails.getUsername();
+        try {
+            ru.kpfu.models.User user = userRepository.findByUsernameOrEmail(username);
+            int userId = user.getId();
+            postRepository.removePostByUserAndId(userId, postId);
+        } catch (Exception e) {
+            throw new ObjectNotFoundException("Пост не найден.");
+        }
 
-        int userId = userRepository.findByUsernameOrEmail(username).getId();
-
-        postRepository.deletePostByIdAndCreatorId(postId, userId);
     }
 
     @Override
     public void createPostByUserId(Post post) {
         postRepository.save(post);
     }
-
 }

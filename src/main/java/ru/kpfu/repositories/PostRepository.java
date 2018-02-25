@@ -19,7 +19,7 @@ public interface PostRepository extends CrudRepository<Post, Integer> {
 
     //language=SQL
     @Query(value = "DELETE FROM post p WHERE p.post_id = :postId AND p.creator_id = :userId", nativeQuery = true)
-    void deletePostByIdAndCreatorId(@Param("postId") int postId, @Param("userId") int userId);
+    void removePostByUserAndId(@Param("userId") int userId, @Param("postId") int id);
 
     Post save(Post post);
 }

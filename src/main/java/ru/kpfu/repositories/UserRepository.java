@@ -14,4 +14,6 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     //language=SQL
     @Query("SELECT u FROM checkin_user u WHERE u.login=:usernameOrEmail OR u.email=:usernameOrEmail")
     User findByUsernameOrEmail(@Param("usernameOrEmail") String usernameOrEmail);
+
+    User save(User user);
 }

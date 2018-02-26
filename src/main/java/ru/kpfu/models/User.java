@@ -2,9 +2,11 @@ package ru.kpfu.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.annotations.GenerationTime;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -25,21 +27,26 @@ public class User implements Serializable {
     @Column(name = "user_id")
     private int id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String login;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(name = "full_name")
+    @Column(name = "full_name", nullable = false)
     private String fullName;
 
-    @Column
+    @JsonIgnore
+    @Column(nullable = false)
     private String password;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Post> posts;
 
-
+    @JsonIgnore
+    @Column(name = "registration_date"
+            , columnDefinition = "timestamp default current_timestamp")
+    @org.hibernate.annotations.Generated(value = GenerationTime.INSERT)
+    private Timestamp registrationDate;
 }

@@ -1,6 +1,7 @@
 package ru.kpfu.models;
 
 import lombok.*;
+import org.hibernate.annotations.GenerationTime;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -23,16 +24,20 @@ public class Post {
     @Column(name = "post_id")
     private int id;
 
-    @Column(name = "avatar_link")
-    private String avatarName;
+    @Column
+    private String avatar;
 
     @Column
-    private String coordinates;
+    private double longitude;
+
+    @Column
+    private double latitude;
 
     @Column
     private String description;
 
-    @Column
+    @Column(columnDefinition = "timestamp default current_timestamp")
+    @org.hibernate.annotations.Generated(value = GenerationTime.INSERT)
     private Timestamp date;
 
     @ManyToOne

@@ -21,9 +21,9 @@ public class Subscribe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "subscribed_user_id")
+    @Column(name = "subscribed_user_id", nullable = false)
     private int subscribedUserId;
 
-    @Column(name = "subscription_id")
+    @Column(name = "subscription_id", nullable = false)
     private int subscriptionId;
 }

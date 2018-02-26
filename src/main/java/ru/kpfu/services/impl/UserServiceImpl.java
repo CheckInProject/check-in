@@ -30,13 +30,4 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public User findById(int id) throws ObjectNotFoundException {
-        User user = userRepository.findOne(id);
-        if (user == null) {
-            throw new ObjectNotFoundException("User not found");
-        }
-        return user;
-    }
 }

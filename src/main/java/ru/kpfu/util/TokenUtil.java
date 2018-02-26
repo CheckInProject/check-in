@@ -8,7 +8,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class TokenUtil {
 
-    public static final String MAGIC_KEY = "IntelliTech";
+    public static final String MAGIC_KEY = "ChekinProject";
 
     public static String createToken(UserDetails userDetails) {
         long expires = System.currentTimeMillis() + 1000L * 60 * 60;

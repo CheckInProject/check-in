@@ -14,7 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 import ru.kpfu.models.User;
-import ru.kpfu.models.response.UserTransfer;
+import ru.kpfu.models.response.UserTransferDto;
 import ru.kpfu.services.RegistrationService;
 import ru.kpfu.services.UserService;
 import ru.kpfu.util.TokenUtil;
@@ -47,10 +47,10 @@ public class RegistrationController {
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     @ResponseStatus(CREATED)
-    public ResponseEntity<UserTransfer> createUser(@RequestParam("fullname") String fullname,
-                                                   @RequestParam("login") String login,
-                                                   @RequestParam("email") String email,
-                                                   @RequestParam("password") String password) {
+    public ResponseEntity<UserTransferDto> createUser(@RequestParam("fullname") String fullname,
+                                                      @RequestParam("login") String login,
+                                                      @RequestParam("email") String email,
+                                                      @RequestParam("password") String password) {
 
         registrationService.create(
                 User.builder()
@@ -75,7 +75,7 @@ public class RegistrationController {
 
             User user = userService.findByUsernameOrEmail(userDetails.getUsername());
 
-            return new ResponseEntity<UserTransfer>(UserTransfer
+            return new ResponseEntity<UserTransferDto>(UserTransferDto
                     .builder()
                     .id(user.getId())
                     .roles(roles)
@@ -85,7 +85,7 @@ public class RegistrationController {
                     .build(), HttpStatus.OK);
 
         } catch (BadCredentialsException bce) {
-            return new ResponseEntity<UserTransfer>(new UserTransfer(), HttpStatus.NO_CONTENT);
+            return new ResponseEntity<UserTransferDto>(new UserTransferDto(), HttpStatus.NO_CONTENT);
 
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);

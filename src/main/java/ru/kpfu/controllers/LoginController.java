@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import ru.kpfu.models.User;
 import ru.kpfu.models.request.AuthenticationRequest;
-import ru.kpfu.models.response.UserTransfer;
+import ru.kpfu.models.response.UserTransferDto;
 import ru.kpfu.services.UserService;
 import ru.kpfu.util.TokenUtil;
 
@@ -46,7 +46,7 @@ public class LoginController {
     private UserService userService;
 
     @RequestMapping(value = "/authenticate", method = {RequestMethod.POST})
-    public ResponseEntity<UserTransfer> authenticate(@RequestBody AuthenticationRequest authenticationRequest) {
+    public ResponseEntity<UserTransferDto> authenticate(@RequestBody AuthenticationRequest authenticationRequest) {
         try {
             String username = authenticationRequest.getUsername();
             String password = authenticationRequest.getPassword();
@@ -68,7 +68,7 @@ public class LoginController {
 
             User user = userService.findByUsernameOrEmail(userDetails.getUsername());
 
-            return new ResponseEntity<UserTransfer>(UserTransfer
+            return new ResponseEntity<UserTransferDto>(UserTransferDto
                     .builder()
                     .id(user.getId())
                     .roles(roles)
@@ -78,7 +78,7 @@ public class LoginController {
                     .build(), HttpStatus.OK);
 
         } catch (BadCredentialsException bce) {
-            return new ResponseEntity<UserTransfer>(new UserTransfer(), HttpStatus.NO_CONTENT);
+            return new ResponseEntity<UserTransferDto>(new UserTransferDto(), HttpStatus.NO_CONTENT);
 
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);

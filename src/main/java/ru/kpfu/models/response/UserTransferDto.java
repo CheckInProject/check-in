@@ -13,14 +13,14 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @Builder
-public class UserTransfer {
+public class UserTransferDto {
     private int id;
     private String username;
     private List<String> roles;
     private String token;
     private HttpStatus status;
 
-    public UserTransfer() {
+    public UserTransferDto() {
         this.token = "";
         this.username = "";
         this.roles = Collections.emptyList();

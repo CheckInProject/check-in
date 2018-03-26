@@ -47,6 +47,7 @@ public class PostServiceImpl implements PostService {
                 .collect(Collectors.toList()));
         List<Post> posts = new ArrayList<>();
         posts.addAll(postRepository.findPostsByUserId(usersIds, offset, limit));
+
         return posts;
     }
 

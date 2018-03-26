@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.kpfu.models.User;
 import ru.kpfu.services.ProfileService;
 
+import java.util.List;
+
 /**
  * 25.02.2018
  *
@@ -41,5 +43,16 @@ public class ProfileContoller {
                 .getContext()
                 .getAuthentication();
         return profileService.updateProfile(user, authentication);
+    }
+
+    @RequestMapping(value = "/subscribes", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAuthority('REGISTERED_USER')")
+    public List<User> subscribes() {
+        Authentication authentication = SecurityContextHolder
+                .getContext()
+                .getAuthentication();
+
+        return profileService.getSubscribes(authentication);
     }
 }

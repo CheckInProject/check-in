@@ -5,7 +5,6 @@ import lombok.*;
 import org.hibernate.annotations.GenerationTime;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -21,7 +20,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class User implements Serializable {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
@@ -29,6 +28,9 @@ public class User implements Serializable {
 
     @Column(unique = true, nullable = false)
     private String login;
+
+    @Column
+    private String avatar;
 
     @Column(unique = true, nullable = false)
     private String email;

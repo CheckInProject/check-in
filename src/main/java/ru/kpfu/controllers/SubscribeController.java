@@ -6,8 +6,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import ru.kpfu.models.Subscribe;
 import ru.kpfu.services.SubscribeService;
 
+import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 /**
@@ -23,10 +25,16 @@ public class SubscribeController {
 
     @RequestMapping("/subscribe")
     @PreAuthorize("hasAuthority('REGISTERED_USER')")
-    @ResponseStatus(OK)
+    @ResponseStatus(CREATED)
     public void subscribeToUser(@RequestParam("userId") int userId,
                                 @RequestParam("subscriptionId") int subscriptionId) {
-        subscribeService.subscribeToUser(userId, subscriptionId);
+
+        Subscribe subscribe = Subscribe.builder()
+                .subscribedUserId(userId)
+                .subscriptionId(subscriptionId)
+                .build();
+
+        subscribeService.subscribeToUser(subscribe);
     }
 
     @RequestMapping("/unsubscribe")
@@ -34,6 +42,12 @@ public class SubscribeController {
     @ResponseStatus(OK)
     public void unsubscribeFromUser(@RequestParam("userId") int userId,
                                     @RequestParam("subscriptionId") int subscriptionId) {
-        subscribeService.unsubscribeFromUser(userId, subscriptionId);
+
+        Subscribe subscribe = Subscribe.builder()
+                .subscribedUserId(userId)
+                .subscriptionId(subscriptionId)
+                .build();
+
+        subscribeService.unsubscribeFromUser(subscribe);
     }
 }

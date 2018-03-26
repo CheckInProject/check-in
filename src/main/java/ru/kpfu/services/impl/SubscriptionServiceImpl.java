@@ -1,9 +1,13 @@
 package ru.kpfu.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import ru.kpfu.models.Subscribe;
 import ru.kpfu.repositories.SubscribeRepository;
 import ru.kpfu.services.SubscribeService;
+
+import java.util.List;
 
 /**
  * 24.02.2018
@@ -16,13 +20,17 @@ public class SubscriptionServiceImpl implements SubscribeService {
     SubscribeRepository subscribeRepository;
 
     @Override
-    public void subscribeToUser(int userId, int subscriptionId) {
-
-        subscribeRepository.save(userId, subscriptionId);
+    public void subscribeToUser(Subscribe subscribe) {
+        subscribeRepository.save(subscribe);
     }
 
     @Override
-    public void unsubscribeFromUser(int userId, int subscriptionId) {
-        subscribeRepository.delete(userId, subscriptionId);
+    public void unsubscribeFromUser(Subscribe subscribe) {
+        subscribeRepository.delete(subscribe);
+    }
+
+    @Override
+    public List<Subscribe> findSubscribesIdsByUserId(Authentication authentication) {
+        return null;
     }
 }

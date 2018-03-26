@@ -9,8 +9,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ru.kpfu.models.Post;
+import ru.kpfu.models.response.PostResponseEntity;
 import ru.kpfu.services.PostService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -31,9 +33,13 @@ public class PostController {
     @RequestMapping(value = "/posts", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('REGISTERED_USER')")
     @ResponseStatus(OK)
-    public List<Post> loadPostsByUser(@RequestParam("offset") int offset, @RequestParam("limit") int limit) {
+    public PostResponseEntity<Post> loadPostsByUser(@RequestParam("offset") int offset, @RequestParam("limit") int limit) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return postService.findPostsByUserId(authentication, offset, limit);
+
+        List<Post> posts = new ArrayList<>();
+        posts = postService.findPostsByUserId(authentication, offset, limit);
+
+        return new PostResponseEntity<Post>(posts);
     }
 
     @RequestMapping(value = "/post/delete", method = RequestMethod.GET)

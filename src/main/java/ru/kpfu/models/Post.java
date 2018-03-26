@@ -24,14 +24,9 @@ public class Post {
     @Column(name = "post_id")
     private int id;
 
-    @Column
-    private String avatar;
-
-    @Column
-    private double longitude;
-
-    @Column
-    private double latitude;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "location_id")
+    private Location location;
 
     @Column
     private String description;

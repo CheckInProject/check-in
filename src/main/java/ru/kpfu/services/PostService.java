@@ -12,6 +12,7 @@ import java.util.List;
  * @author Robert Bagramov.
  */
 public interface PostService {
+
     List<Post> findPostsByUserId(Authentication authentication, int offset, int limit);
 
     void removePost(Authentication authentication, int postId) throws ObjectNotFoundException;
